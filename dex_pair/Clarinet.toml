@@ -1,9 +1,89 @@
 [project]
-name = "dex-amm"
+name = "dex-amm-enhanced"
+version = "2.0.0"
+authors = ["Your Name <your.email@example.com>"]
+description = "Enhanced DEX AMM with governance and security features"
+telemetry = false
+cache_dir = "./.clarinet"
 
-[[contracts]]
-name = "dex-amm"
+[contracts.dex-amm]
 path = "contracts/dex-amm.clar"
+clarity_version = 2
+epoch = "2.1"
 
+[contracts.dex-governance] 
+path = "contracts/dex-governance.clar"
+clarity_version = 2
+epoch = "2.1"
+
+# Test contracts for SIP-010 tokens
+[contracts.test-token-a]
+path = "contracts/test-token-a.clar"
+clarity_version = 2
+epoch = "2.1"
+
+[contracts.test-token-b]
+path = "contracts/test-token-b.clar" 
+clarity_version = 2
+epoch = "2.1"
+
+# Network configurations
+[network]
+name = "devnet"
+
+[network.deployment]
+generate-missing-contracts = true
+simulate-contracts = true
+
+[[network.deployment.plan.batches]]
+id = 0
+[[network.deployment.plan.batches.transactions]]
+contract-publish.contract-name = "test-token-a"
+contract-publish.expected-sender = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+contract-publish.cost = 60000
+contract-publish.path = "contracts/test-token-a.clar"
+
+[[network.deployment.plan.batches.transactions]]
+contract-publish.contract-name = "test-token-b"
+contract-publish.expected-sender = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+contract-publish.cost = 60000
+contract-publish.path = "contracts/test-token-b.clar"
+
+[[network.deployment.plan.batches]]
+id = 1
+[[network.deployment.plan.batches.transactions]]
+contract-publish.contract-name = "dex-amm"
+contract-publish.expected-sender = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+contract-publish.cost = 100000
+contract-publish.path = "contracts/dex-amm.clar"
+
+[[network.deployment.plan.batches.transactions]]
+contract-publish.contract-name = "dex-governance"
+contract-publish.expected-sender = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+contract-publish.cost = 80000
+contract-publish.path = "contracts/dex-governance.clar"
+
+# Testing configuration
 [repl]
-debug = true
+costs = true
+
+# Account configurations for testing
+[[network.accounts]]
+name = "deployer"
+address = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
+balance = 100000000000000
+
+[[network.accounts]]
+name = "wallet_1" 
+address = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5"
+balance = 100000000000000
+
+[[network.accounts]]
+name = "wallet_2"
+address = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG"
+balance = 100000000000000
+
+[[network.accounts]]
+name = "wallet_3"
+address = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC"
+balance = 100000000000000
