@@ -1,0 +1,9 @@
+[project]
+name = "dex-amm"
+
+[[contracts]]
+name = "dex-amm"
+path = "contracts/dex-amm.clar"
+
+[repl]
+debug = true
